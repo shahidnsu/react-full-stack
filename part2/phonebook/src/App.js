@@ -1,17 +1,13 @@
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import './App.css';
 import Persons from './components/Persons';
 import Search from './components/Search';
+import axios from 'axios';
 
 const App = () => {
 
-  const [person, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [person, setPersons] = useState([])
    
   // this set the set of new name
   const [newName, setNewName] = useState('')
@@ -21,6 +17,19 @@ const App = () => {
 
   // this set state for search items
   const [searchTerm, setSearchTerm] = useState('')
+
+  // function for fetching data from json server using useEffect hook
+
+  const getPersonsFromJsonServer = () => {
+    axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      setPersons(response.data)
+      
+    })
+
+  }
+  useEffect(getPersonsFromJsonServer,[])
 
   // this handles new number input
   const handleNameChange = (event) => {
@@ -51,7 +60,8 @@ const App = () => {
     const addNameNumber = 
     {
       name: newName,
-      phone:newPhoneNumber
+      number:newPhoneNumber,
+      id : person.length + 1
     }
      
      

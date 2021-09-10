@@ -7,7 +7,7 @@ const Persons = ({person}) => {
         <ul>
         {person.map(single => 
         {
-           return <Person key={single.name} singlePerson={single.name} phoneNumber ={single.phone} />
+           return <Person key={single.name} singlePerson={single.name} phoneNumber ={single.number} />
 
         })}
         </ul>

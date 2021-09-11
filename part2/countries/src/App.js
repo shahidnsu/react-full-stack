@@ -13,6 +13,8 @@ const App = () => {
 // state for  searchTerm
   const [searchTerm,setSearchTerm] = useState('')
 
+  
+
   // event handler for getting the searchTerm
   const getSearchTerm = (event) => {
 
@@ -20,6 +22,8 @@ const App = () => {
     
 
   } 
+
+  
 
   // calling the api using use effect hook
 
@@ -35,7 +39,7 @@ const App = () => {
   return (
     <div>
       <h1>Welcome to NationBook</h1>
-      <h3>Search in the input box for know your country</h3>
+      <h3>Search in the input box to know your country</h3>
       <br></br>
       <input 
       value={searchTerm} 

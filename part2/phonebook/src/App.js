@@ -5,6 +5,7 @@ import Persons from './components/Persons';
 import Search from './components/Search';
 import axios from 'axios';
 
+
 const App = () => {
 
   const [person, setPersons] = useState([])
@@ -17,6 +18,24 @@ const App = () => {
 
   // this set state for search items
   const [searchTerm, setSearchTerm] = useState('')
+
+  //button for deleting the entry from the phonebook
+
+  const deleteEntry =(id) => {
+    const url= `http://localhost:3001/persons/${id}`
+    const p = person.find(p => p.id ===id)
+    const newP = person.filter( p => p.id !== id)
+    const yesOrNo = window.confirm(`Delete the user ${p.name} ?`)
+    if(yesOrNo === true){
+    axios.delete(url, p).then(response => {
+      
+      setPersons(newP)
+    })
+  }
+  else {
+    setPersons(person)
+  }
+}
 
   // function for fetching data from json server using useEffect hook
 
@@ -63,6 +82,8 @@ const App = () => {
       number:newPhoneNumber,
       id : person.length + 1
     }
+    axios
+    .post('http://localhost:3001/persons', addNameNumber)
      
      
       
@@ -129,7 +150,7 @@ const App = () => {
 
 
       <h2>Numbers</h2>
-      <Persons person ={person} />
+      <Persons person ={person} deleteEntry={deleteEntry} />
       
       
       

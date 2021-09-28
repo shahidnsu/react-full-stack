@@ -3,7 +3,8 @@ import { useState,useEffect } from 'react';
 import './App.css';
 import Persons from './components/Persons';
 import Search from './components/Search';
-import axios from 'axios';
+
+import namePhone from './services/namePhone';
 
 
 const App = () => {
@@ -22,16 +23,21 @@ const App = () => {
   //button for deleting the entry from the phonebook
 
   const deleteEntry =(id) => {
-    const url= `http://localhost:3001/persons/${id}`
+    
     const p = person.find(p => p.id ===id)
-    const newP = person.filter( p => p.id !== id)
+    const newEntries = person.filter(p => p.id !== id)
+     
     const yesOrNo = window.confirm(`Delete the user ${p.name} ?`)
     if(yesOrNo === true){
-    axios.delete(url, p).then(response => {
-      
-      setPersons(newP)
-    })
-  }
+      namePhone
+      .deleteEntries(id)
+      .then(p => {
+        setPersons(newEntries)
+        
+      })
+    }
+    
+  
   else {
     setPersons(person)
   }
@@ -39,16 +45,15 @@ const App = () => {
 
   // function for fetching data from json server using useEffect hook
 
-  const getPersonsFromJsonServer = () => {
-    axios
-    .get('http://localhost:3001/persons')
+  
+
+  useEffect(() => {
+    namePhone
+    .getAll()
     .then(response => {
       setPersons(response.data)
-      
     })
-
-  }
-  useEffect(getPersonsFromJsonServer,[])
+  },[])
 
   // this handles new number input
   const handleNameChange = (event) => {
@@ -80,20 +85,17 @@ const App = () => {
     {
       name: newName,
       number:newPhoneNumber,
-      id : person.length + 1
+      
     }
-    axios
-    .post('http://localhost:3001/persons', addNameNumber)
-     
-     
+    namePhone
+    .create(addNameNumber)
+    .then(response => {
+      setPersons(person.concat(response.data))
+    })
+    setNewNumber('')
+    setNewName('')
       
-      
-      setPersons(person.concat(addNameNumber))
-      setNewName('')
-      setNewNumber('')
-
-      
-  }
+      }
   
   } 
   // this function handles the input of searchTerm

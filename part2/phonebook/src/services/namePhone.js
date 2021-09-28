@@ -5,17 +5,20 @@ const baseUrl = 'http://localhost:3001/persons'
 
 const getAll = () =>
 {
-    const request = axios.get(baseUrl)
-    return request.then (response => response.data)
+    return  axios.get(baseUrl)
+
+    
+    
 }
 const create = newObject => {
-    const request = axios.post(baseUrl, newObject)
-    return request.then(response => response.data)
+    return   axios.post(baseUrl, newObject)
+     
 }
-const deleteEntry = (id) => {
-    const request = axios.delete(`${baseUrl}/${id}`)
-    return request.then(response => response.data)
+const deleteEntries = (id) => {
+    
+    return axios.delete(`${baseUrl}/${id}`)
+    
 
 }
 
-export default{ getAll, create, deleteEntry}
+export default{ getAll, create, deleteEntries}

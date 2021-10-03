@@ -20,7 +20,7 @@ const App = () => {
   // this set state for search items
   const [searchTerm, setSearchTerm] = useState('')
 
-  //button for deleting the entry from the phonebook
+  //button for deleting the entry from the phoneBook
 
   const deleteEntry =(id) => {
     
@@ -71,33 +71,77 @@ const App = () => {
 //it prevents the default behaviour of from elements and also stops components to rerender
     event.preventDefault() 
 
-    // this function checks if the value already contains the array of objects
+    // this function checks if the value already contains in the array of objects
     // if it is length is zero then  value doesn't contain in the array of objects
     const filteredPerson = person.filter((p)=>{
+      
+      
       return p.name === newName
+      
      })
      
-     if(filteredPerson.length !==0){
-       alert(`${newName} is already in the phoneBook`)
-     }
-    else {
-    const addNameNumber = 
-    {
-      name: newName,
-      number:newPhoneNumber,
-      
-    }
-    namePhone
-    .create(addNameNumber)
-    .then(response => {
-      setPersons(person.concat(response.data))
-    })
-    setNewNumber('')
-    setNewName('')
-      
+
+     
+
+     if(filteredPerson.length === 1){
+
+     const overRide = window.confirm(`${filteredPerson[filteredPerson.length-1].name} is already added to phoneBook. replace the old number with new one`)
+
+     if (overRide === true) {
+
+      const addNameNumber = 
+      {
+        name: filteredPerson[filteredPerson.length-1].name,
+        number:newPhoneNumber
+        
       }
+      namePhone
+      .update(filteredPerson[filteredPerson.length-1].id, addNameNumber)
+      .then(response => {
+        const newP = person.filter((p=> p.id !== filteredPerson[filteredPerson.length-1].id))
+        setPersons([...newP, addNameNumber])
+      })
+
+      
+      setNewNumber('')
+      setNewName('')
+  
+       }
+
+     }
+     else 
+     {
+      const addNameNumber = 
+      {
+        name: newName,
+        number:newPhoneNumber,
+        
+      }
+      namePhone
+      .create(addNameNumber)
+      .then(response => {
+        setPersons(person.concat(response.data))
+      })
+      setNewNumber('')
+      setNewName('')
+
+     }
+     
+     
+     
+     
+    
+      
+      
   
   } 
+
+
+  //this function update the existing phone number with new one
+
+  
+
+ 
   // this function handles the input of searchTerm
   const getInputValue = (event) => {
     setSearchTerm(event.target.value)
@@ -163,5 +207,6 @@ const App = () => {
   )
 }
    
+
 
 export default App;

@@ -20,5 +20,8 @@ const deleteEntries = (id) => {
     
 
 }
+const update =(id,newObject) => {
+    return axios.put(`${baseUrl}/${id}`, newObject)
+}
 
-export default{ getAll, create, deleteEntries}
+export default{ getAll, create, deleteEntries, update}

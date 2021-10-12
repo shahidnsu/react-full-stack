@@ -85,20 +85,20 @@ const App = () => {
 
      if(filteredPerson.length === 1){
 
-     const overRide = window.confirm(`${filteredPerson[filteredPerson.length-1].name} is already added to phoneBook. replace the old number with new one`)
+     const overRide = window.confirm(`${filteredPerson[0].name} is already added to phoneBook. replace the old number with new one`)
 
      if (overRide === true) {
 
       const addNameNumber = 
       {
-        name: filteredPerson[filteredPerson.length-1].name,
+        name: filteredPerson[0].name,
         number:newPhoneNumber
         
       }
       namePhone
-      .update(filteredPerson[filteredPerson.length-1].id, addNameNumber)
+      .update(filteredPerson[0].id, addNameNumber)
       .then(response => {
-        const newP = person.filter((p=> p.id !== filteredPerson[filteredPerson.length-1].id))
+        const newP = person.filter((p=> p.id !== filteredPerson[0].id))
         setPersons([...newP, addNameNumber])
       })
 
